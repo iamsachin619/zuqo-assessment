@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 // const url =  'mongodb+srv://sachinsinghrelish:h7V8SnctFnl56B2k@hireit.gpduf7l.mongodb.net/?retryWrites=true&w=majority';
 const url = process.env.MONGO_DB_URI
 // connect to database.
-mongoose.connect(url);
+mongoose.connect("mongodb+srv://hireitplacementstech:cvQFG7sKHUuUrf8P@cluster0.fmrxd2h.mongodb.net/?retryWrites=true&w=majority");
 // opt to use Global Promise library.
 mongoose.Promise = global.Promise;
 // connection for us to use.
