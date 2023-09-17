@@ -11,11 +11,13 @@ async function getUsers(req, res) {
     let query = {};
 
     // Apply search filter if provided
-    if (search) {
+    if (search && search != '') {
       query = {
         $or: [
-          { title: { $regex: search, $options: 'i' } },
-          { author: { $regex: search, $options: 'i' } },
+          { firstName: { $regex: search, $options: 'i' } },
+          { lastName: { $regex: search, $options: 'i' } },
+          { city: { $regex: search, $options: 'i' } },
+          
         ],
       };
     }

@@ -7,7 +7,9 @@ import {
   Pagination,
   TagPicker,
   Table,
+  Input, InputGroup,
 } from "rsuite";
+import SearchIcon from '@rsuite/icons/Search';
 
 //table imports
 const { Column, HeaderCell, Cell } = Table;
@@ -15,13 +17,16 @@ const CompactCell = (props) => <Cell {...props} style={{ padding: 4 }} />;
 const CompactHeaderCell = (props) => (
   <HeaderCell {...props} style={{ padding: 4 }} />
 );
+const styles = {
+  marginBottom: 10
+};
 import "rsuite/dist/rsuite.min.css";
 import NavBar from "./components/navBar";
 import Analytics from "./components/Analytics";
 import { useEffect } from "react";
 import apiHost from "../env";
 
-const limitOptions = [30, 50, 100];
+const limitOptions = [10,30, 50, 100];
 const defaultColumns = [
   {
     key: "id",
@@ -59,7 +64,7 @@ const defaultColumns = [
 ];
 function App() {
   // const [count, setCount] = useState(0)
-  const [pageSize, setPageSize] = useState(50);
+  // const [pageSize, setPageSize] = useState(50);
   // const [page, setPage] = useState(1);
   const [data, setData] = useState([]);
 
@@ -85,7 +90,7 @@ function App() {
     "pager",
     "skip",
   ]);
-  const [limit, setLimit] = useState(30);
+  const [limit, setLimit] = useState(10);
 
   //table
   const [columnKeys, setColumnKeys] = useState(
@@ -131,7 +136,7 @@ function App() {
     setLoading(false)
   }
   const getUsers = async () =>{
-    await fetch(apiHost + 'api/users'+ '?pageSize='+limit + '&page='+activePage,{
+    await fetch(apiHost + 'api/users'+ '?pageSize='+limit + '&page='+activePage+'&search='+search,{
       method: 'GET',
     })
     .then(res => res.json())
@@ -163,9 +168,11 @@ function App() {
   //   getUsers()
   // },[])
 
+  const [search, setSearch] = useState('')
   useEffect(()=>{
     getUsers()
-  },[limit,activePage])
+  },[limit,activePage,search])
+
   return (
     <>
       <NavBar />
@@ -182,6 +189,15 @@ function App() {
             cleanable={false}
           />
           <hr />
+          Search:
+          <InputGroup size="lg" placeholder="Large" inside style={styles}>
+            <Input value={search} onChange={(val)=>{
+             setSearch(val)
+            }}/>
+            <InputGroup.Button>
+              <SearchIcon />
+            </InputGroup.Button>
+          </InputGroup>
           <Table
             loading={loading}
             height={300}
